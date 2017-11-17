@@ -6,6 +6,7 @@ import {fetchPosts} from '../actions';
 import _ from 'lodash';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Modal from './modal';
+import Firebase from '../lib/firebase';
 class PostsIndex extends React.Component{
   constructor(){
     super();

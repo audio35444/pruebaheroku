@@ -9,6 +9,7 @@ import reducers from './reducers';
 import PostsIndex from './components/posts_index';
 import PostsNew from './components/posts_new';
 import PostsShow from './components/posts_show';
+import Pruebas from './components/pruebas';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk'
 
@@ -29,14 +30,23 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 // }
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
+
     <BrowserRouter >
       <div>
+        <div>
+          <h1>HEADER</h1>
+        </div>
         <Switch>
           <Route path="/posts/new" component={PostsNew}/>
           <Route path="/posts/:id" component={PostsShow}/>
-          <Route path="/" component={PostsIndex}/>
+          <Route path='/postlist' component={PostsIndex}/>
+          <Route path="/" component={Pruebas}/>
         </Switch>
+        <div>
+          <h1>FOOTER</h1>
+        </div>
     </div>
     </BrowserRouter>
+
   </Provider>
   , document.querySelector('.container'));
