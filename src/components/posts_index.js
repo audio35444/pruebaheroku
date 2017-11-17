@@ -12,15 +12,34 @@ class PostsIndex extends React.Component{
     super();
   }
   componentDidMount(){
-    this.props.fetchPosts();
-    console.log('en index');
-    console.log(this.props.posts);
+    Firebase.auth().onAuthStateChanged((user)=>{
+      if(user){
+        console.log('entro en loggedOn');
+        this.setState({loggedIn:true})
+        this.props.fetchPosts();
+        console.log('en index');
+        console.log(this.props.posts);
+
+      }else{
+        console.log('entro en loggedoff');
+          this.setState({loggedIn:false})
+          this.props.history.push('/');
+      }
+    });
+
   }
   renderPosts(){
     return _.map(this.props.posts,post=>{
       if(post)return (
         <li key={post.id} className="list-group-item">
           <Link to={`/posts/${post.id}`}>{post.title}</Link>
+          <button className="btn btn-primary margin-left" onClick={()=>{
+            this.props.history.push({
+              pathname: '/posts/new',
+              search: '',
+              state: { post }
+            })
+          }}>Editar</button>
         </li>
       );
     });

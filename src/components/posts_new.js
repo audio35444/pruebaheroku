@@ -64,15 +64,47 @@ FIELDS.title.validations['lengthMin']={
 class PostsNew extends Component{
   constructor(props){
     super(props);
+  this.state ={
+    title:'',
+    categoria:'',
+    description:''
+  };
+  if(this.props.location.state)
+  {
+    if(this.props.location.state.post){
+      this.setState({
+      title:this.props.location.state.post.title,
+      categoria:this.props.location.state.post.categoria,
+      description:this.props.location.state.post.description
+      });
+    }
+  }
+    else{
+      this.setState({
+        title:'',
+        categoria:'',
+        description:''
+      });
+    }
+  }
+  componentDidMount(){
+    this.setState({
+    title:this.props.location.state.post.title,
+    categoria:this.props.location.state.post.categoria,
+    description:this.props.location.state.post.description
+    });
   }
   renderField(field){
     //es como hacer const {touched,error}=meta;
+    //value={this.state[field.input.name]}
+    console.log(this.state[field.input.name]);
     const {meta:{touched,error}}=field;
-    const classNameLabel = `form-group ${touched && error ? 'has-danger':'' }`
+    const classNameLabel = `form-group ${touched && error ? 'has-danger':'' }`;
     return (
       <div className={classNameLabel}>
         <label htmlFor="">{field.label}</label>
         <input
+          value={this.state[field.input.name]}
           className="form-control"
           type="text"
           {...field.input}
@@ -89,7 +121,7 @@ class PostsNew extends Component{
   }
   onSubmit(values){
     this.props.createPost(values,()=>{
-      this.props.history.push('/');
+      this.props.history.push('/postlist');
     });
   }
   renderFunction(fieldConfig,field){
@@ -97,7 +129,7 @@ class PostsNew extends Component{
       <Field
         label={fieldConfig.label}
         name={field}
-        component={this.renderField}
+        component={this.renderField.bind(this)}
       />
     );
   }
